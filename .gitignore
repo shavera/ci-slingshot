@@ -31,11 +31,13 @@
 *.out
 *.
 
-#build folders
+# build folders
 **build**
+# except specifically
+!.github/workflows/build.yml
 
 # vscode
 .vscode
 
-#intellij
+# intellij
 .idea
