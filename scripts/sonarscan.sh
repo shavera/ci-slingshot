@@ -8,5 +8,4 @@ else
       --define sonar.host.url="${SONAR_SERVER_URL}" \
       --define sonar.cfamily.build-wrapper-output="${BUILD_WRAPPER_OUT_DIR}" \
       --define sonar.coverageReportPaths="${BUILD_WRAPPER_OUT_DIR}/coverage.xml"
-#      --define sonar.cfamily.gcov.reportsPath="${BUILD_WRAPPER_OUT_DIR}/coverage"
 fi
