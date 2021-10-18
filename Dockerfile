@@ -13,6 +13,6 @@ RUN mkdir -p ${BUILD_WRAPPER_OUT_DIR} && \
 # Run ctest??? gcovr???
 
 # Need to have SONAR_TOKEN env var
-ARG SONAR_TOKEN
-WORKDIR /usr/src/ci-slingshot
-RUN bash scripts/sonarscan.sh
+#ARG SONAR_TOKEN
+#WORKDIR /usr/src/ci-slingshot
+RUN #bash scripts/sonarscan.sh
