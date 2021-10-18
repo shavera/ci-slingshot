@@ -37,4 +37,4 @@ RUN curl -sSLo /usr/.sonar/sonar-scanner.zip ${SONAR_SCANNER_DOWNLOAD_URL} && \
     curl -sSLo /usr/.sonar/build-wrapper-linux-x86.zip ${BUILD_WRAPPER_DOWNLOAD_URL} && \
     unzip -o /usr/.sonar/build-wrapper-linux-x86.zip -d /usr/.sonar
 
-ENV PATH="/usr/.sonar/build-wrapper-linux-x86:/usr/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux:${PATH}"
+ENV PATH="/usr/.sonar/build-wrapper-linux-x86:/usr/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux/bin:${PATH}"
