@@ -12,7 +12,6 @@ docker run \
     -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
-    --user "$(id -u)":"$(id -g)" \
     -w ${CONTAINER_BUILD_DIR} \
     --entrypoint "unit-test.sh" \
     local/unit-tester
