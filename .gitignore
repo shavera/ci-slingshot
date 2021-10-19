@@ -35,6 +35,8 @@
 **build**
 # except specifically
 !.github/workflows/build.yml
+!docker/builder.Dockerfile
+!scripts/*build*
 
 # vscode
 .vscode
