@@ -14,4 +14,4 @@ docker run \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
     -w ${CONTAINER_BUILD_DIR} \
     --entrypoint "unit-test.sh" \
-    local/unit-tester
+    shavera/ci-unit-test
