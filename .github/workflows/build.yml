@@ -21,5 +21,7 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
           submodules: true
+      - name: check token
+        - echo "Sonar Token ${{ env.SONAR_TOKEN }}"
       - name: build and run sonar scanner
         run: docker build . --file Dockerfile --tag shavera/ci-slingshot --build-arg SONAR_TOKEN="${{ env.SONAR_TOKEN }}"
