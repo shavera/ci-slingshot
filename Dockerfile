@@ -2,10 +2,6 @@ FROM shavera/sonar-ci-base as ci-builder
 
 COPY . /usr/src/ci-slingshot
 
-# Need to have SONAR_TOKEN env var
-ARG SONAR_TOKEN
-RUN bash /usr/src/ci-slingshot/scripts/tokencheck.sh
-
 WORKDIR /usr/src/ci-slingshot/build
 COPY sonar-project.properties .
 RUN mkdir -p ${BUILD_WRAPPER_OUT_DIR}/coverage && \
@@ -15,5 +11,7 @@ RUN mkdir -p ${BUILD_WRAPPER_OUT_DIR}/coverage && \
     cd .. && \
     gcovr --sonarqube ${BUILD_WRAPPER_OUT_DIR}/coverage.xml
 
+# Need to have SONAR_TOKEN env var
+ARG SONAR_TOKEN
 WORKDIR /usr/src/ci-slingshot
 RUN bash scripts/sonarscan.sh
