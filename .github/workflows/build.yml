@@ -16,8 +16,8 @@ jobs:
       # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
-      LOCAL_BUILD_DIR: "${{ env.PWD }}/../ci-slingshot-build"
-      LOCAL_COVERAGE_DIR: "${{ env.PWD }}/../ci-slingshot-coverage"
+      LOCAL_BUILD_DIR: "${{ env.GITHUB_WORKSPACE }}/ci-slingshot-build"
+      LOCAL_COVERAGE_DIR: "${{ env.GITHUB_WORKSPACE }}/ci-slingshot-coverage"
       CONTAINER_REPO_DIR: "/usr/src/ci-slingshot"
       CONTAINER_SOURCE_DIR: "/usr/src/ci-slingshot/cpp"
       CONTAINER_BUILD_DIR: "/usr/build/ci-slingshot"
