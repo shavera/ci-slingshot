@@ -17,4 +17,8 @@ WORKDIR /usr/bin/ci-slingshot
 COPY scripts/build-project.sh .
 RUN chmod +x build-project.sh
 
+# SOURCE_DIR and BUILD_DIR should be specified with the run
+# They are assumed to be volumes mounted to some location
+ENV SOURCE_DIR=""
+ENV BUILD_DIR=""
 ENTRYPOINT ./build-project.sh

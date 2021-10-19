@@ -1,8 +1,4 @@
-FROM shavera/build-base
-
-RUN apt-get update
-ENV DEBIAN_FRONTEND="noninteractive"
-RUN apt-get -qqy install tzdata
+FROM local/project-base
 
 RUN apt-get -qqy install \
     curl \
@@ -26,4 +22,8 @@ ENV PATH="/usr/.sonar/build-wrapper-linux-x86:/usr/.sonar/sonar-scanner-$SONAR_S
 # Assumes an environment variable SOURCE_DIR and SONAR_TOKEN will be updated when container is run
 ENV SOURCE_DIR=""
 ENV SONAR_TOKEN=""
-CMD ["bash", "scripts/sonarscan.sh"]
+ENV BUILD_DIR=""
+ENV COVERAGE_DIR=""
+COPY scripts/sonarscan.sh /usr/bin/
+RUN chmod +x /usr/bin/sonarscan.sh
+ENTRYPOINT sonarscan.sh
