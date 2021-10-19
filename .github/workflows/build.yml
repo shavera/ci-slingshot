@@ -16,29 +16,28 @@ jobs:
       # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+      LOCAL_BUILD_DIR: "${{ env.PWD }}/../ci-slingshot-build"
+      LOCAL_COVERAGE_DIR: "${{ env.PWD }}/../ci-slingshot-coverage"
+      CONTAINER_REPO_DIR: "/usr/src/ci-slingshot"
+      CONTAINER_SOURCE_DIR: "/usr/src/ci-slingshot/cpp"
+      CONTAINER_BUILD_DIR: "/usr/build/ci-slingshot"
+      CONTAINER_COVERAGE_DIR: "/usr/sonar/ci-slingshot"
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
           submodules: true
-      - env:
-          LOCAL_BUILD_DIR: "${{ env.PWD }}/../ci-slingshot-build"
-          LOCAL_COVERAGE_DIR: "${{ env.PWD }}/../ci-slingshot-coverage"
-          CONTAINER_REPO_DIR: "/usr/src/ci-slingshot"
-          CONTAINER_SOURCE_DIR: "/usr/src/ci-slingshot/cpp"
-          CONTAINER_BUILD_DIR: "/usr/build/ci-slingshot"
-          CONTAINER_COVERAGE_DIR: "/usr/sonar/ci-slingshot"
       - name: build base image
         run: docker build . -t local/project-base -f docker/project-base.Dockerfile
-#      - name: build builder image
-#        run: docker build . -t local/project-builder -f docker/builder.Dockerfile
-#      - name: build unit test image
-#        run: docker build . -t local/unit-test -f docker/unit-test.Dockerfile
-#      - name: build sonar scanner image
-#        run: docker build . -t local/sonar-scanner -f docker/sonar-scanner.Dockerfile
-#      - name: build project
-#        run: bash scripts/build-stage.sh
-#      - name: run unit tests
-#        run: bash scripts/tests-stage.sh
-#      - name: run analysis
-#        run: bash scripts/analysis-stage.sh
+      - name: build builder image
+        run: docker build . -t local/project-builder -f docker/builder.Dockerfile
+      - name: build unit test image
+        run: docker build . -t local/unit-test -f docker/unit-test.Dockerfile
+      - name: build sonar scanner image
+        run: docker build . -t local/sonar-scanner -f docker/sonar-scanner.Dockerfile
+      - name: build project
+        run: bash scripts/build-stage.sh
+      - name: run unit tests
+        run: bash scripts/tests-stage.sh
+      - name: run analysis
+        run: bash scripts/analysis-stage.sh
