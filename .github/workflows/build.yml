@@ -9,7 +9,7 @@ on:
     - cron: '17 0 * * SUN' # the example itself doesn't become stale
 jobs:
   build:
-    name: Build
+    name: Build and run analysis
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.6.1.2450 # Find the latest version in the "Linux" link on this page:
@@ -21,5 +21,24 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
           submodules: true
-      - name: build and run sonar scanner
-        run: docker build . --file Dockerfile --tag shavera/ci-slingshot --build-arg SONAR_TOKEN="${{ secrets.SONAR_TOKEN }}"
+      - env:
+          LOCAL_BUILD_DIR: "${{ env.PWD }}/../ci-slingshot-build"
+          LOCAL_COVERAGE_DIR: "${{ env.PWD }}/../ci-slingshot-coverage"
+          CONTAINER_REPO_DIR: "/usr/src/ci-slingshot"
+          CONTAINER_SOURCE_DIR: "/usr/src/ci-slingshot/cpp"
+          CONTAINER_BUILD_DIR: "/usr/build/ci-slingshot"
+          CONTAINER_COVERAGE_DIR: "/usr/sonar/ci-slingshot"
+      - name: build base image
+        run: docker build . -t local/project-base -f docker/project-base.Dockerfile
+      - name: build builder image
+        run: docker build . -t local/project-builder -f docker/builder.Dockerfile
+      - name: build unit test image
+        run: docker build . -t local/unit-test -f docker/unit-test.Dockerfile
+      - name: build sonar scanner image
+        run: docker build . -t local/sonar-scanner -f docker/sonar-scanner.Dockerfile
+      - name: build project
+        run: bash scripts/build-stage.sh
+      - name: run unit tests
+        run: bash scripts/tests-stage.sh
+      - name: run analysis
+        run: bash scripts/analysis-stage.sh
