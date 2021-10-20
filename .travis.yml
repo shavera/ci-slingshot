@@ -24,8 +24,8 @@ env:
     - CONTAINER_BUILD_DIR="/usr/build/ci-slingshot"
     - CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
 
-#before_install:
-#  - echo "$DOCKER_TOKEN" | docker login -u "shavera" --password-stdin
+before_install:
+  - echo "$DOCKER_TOKEN" | docker login -u "shavera" --password-stdin
 
 install:
 #  - docker build . -t local/project-base -f docker/project-base.Dockerfile # can reuse ci image for now
