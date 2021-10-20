@@ -14,3 +14,12 @@ docker run \
     -w "${CONTAINER_BUILD_DIR}" \
     --entrypoint "unit-test.sh" \
     shavera/ci-unit-test
+
+echo "0A"
+ls "$PWD"
+echo "0B"
+ls "$PWD"/cpp
+echo "0C"
+ls "$LOCAL_BUILD_DIR"
+echo "0D"
+ls "$LOCAL_COVERAGE_DIR"
