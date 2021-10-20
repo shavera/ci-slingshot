@@ -6,13 +6,6 @@ set -e
 # NOTE, this is meant to be a guide to how to build these together, not necessarily run as a literal script
 # It is meant to be run from the top level of the repo directory
 
-## Step 0 - preconditions
-docker build . -t local/project-base -f docker/project-base.Dockerfile
-docker build . -t local/project-builder -f docker/builder.Dockerfile
-docker build . -t local/unit-tester -f docker/unit-test.Dockerfile
-## Step 0.1 - SonarScanner image - could be built and stored externally - doesn't need built with each run
-docker build . -t local/sonar-scanner -f docker/sonar-scanner.Dockerfile
-
 ## Step 1 - build
 LOCAL_BUILD_DIR="${PWD}/../ci-slingshot-build"
 if [[ -d "${LOCAL_BUILD_DIR}" ]]; then
@@ -28,7 +21,7 @@ docker run \
     -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     --user "$(id -u)":"$(id -g)" \
-    local/project-builder
+    shavera/ci-cmake-builder
 
 printf "\nBuild complete\n"
 
@@ -50,7 +43,7 @@ docker run \
     --user "$(id -u)":"$(id -g)" \
     -w ${CONTAINER_BUILD_DIR} \
     --entrypoint "unit-test.sh" \
-    local/unit-tester
+    shavera/ci-unit-test
 
 printf "\nTest complete\n"
 
@@ -63,4 +56,4 @@ docker run \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
     -w ${CONTAINER_REPO_DIR} \
-    local/sonar-scanner
+    shavera/ci-sonar-scanner
