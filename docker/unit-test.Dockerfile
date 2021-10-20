@@ -1,4 +1,6 @@
-FROM local/project-builder
+#FROM local/project-builder
+# don't need to rebuild this image yet
+FROM shavera/project-builder
 
 RUN apt-get -qqy install gcovr
 
