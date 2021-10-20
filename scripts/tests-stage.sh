@@ -4,6 +4,24 @@ if [[ -d "${LOCAL_COVERAGE_DIR}" ]]; then
   rm -rf "${LOCAL_COVERAGE_DIR}"
 fi
 mkdir -p "${LOCAL_COVERAGE_DIR}"
+
+echo "00A"
+ls "$PWD"
+echo "00B"
+ls "$PWD"/cpp
+echo "00C"
+echo "$LOCAL_BUILD_DIR"
+echo "${LOCAL_BUILD_DIR}"
+ls "$LOCAL_BUILD_DIR"
+echo "00CC"
+ls "${LOCAL_BUILD_DIR}"
+echo "00CCC"
+ls $LOCAL_BUILD_DIR
+echo "00CCCC"
+ls ${LOCAL_BUILD_DIR}
+echo "00D"
+ls "$LOCAL_COVERAGE_DIR"
+
 docker run \
     -v "${PWD}":"${CONTAINER_REPO_DIR}" \
     -v "${LOCAL_BUILD_DIR}":"${CONTAINER_BUILD_DIR}" \
