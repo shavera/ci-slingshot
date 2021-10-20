@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-echo "A"
-ls "$PWD"
-echo "B"
-ls "$PWD"/cpp
-echo "C"
-ls "$LOCAL_BUILD_DIR"
-echo "D"
-ls "$LOCAL_COVERAGE_DIR"
-
 docker run \
     -v "${PWD}":"${CONTAINER_REPO_DIR}" \
     -v "${LOCAL_BUILD_DIR}":"${CONTAINER_BUILD_DIR}" \

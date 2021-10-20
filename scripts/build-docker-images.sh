@@ -40,7 +40,6 @@ docker run -it\
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
     -w ${CONTAINER_BUILD_DIR} \
-    --entrypoint "unit-test.sh" \
     shavera/ci-unit-test
 
 printf "\nTest complete\n"
