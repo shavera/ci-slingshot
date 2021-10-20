@@ -14,9 +14,11 @@ echo "${LOCAL_BUILD_DIR}"
 ls "$LOCAL_BUILD_DIR"
 if [[ -d "${LOCAL_BUILD_DIR}" ]]; then
   echo "build dir found"
-  pushd "$LOCAL_BUILD_DIR" || exit 1
+  cd "$LOCAL_BUILD_DIR" || exit 1
+  echo "..."
   ls .
-  popd || exit 1
+  echo "---"
+  cd .. || exit 1
 else
   echo "No build dir found"
 fi
