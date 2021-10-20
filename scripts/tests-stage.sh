@@ -4,9 +4,6 @@ if [[ -d "${LOCAL_COVERAGE_DIR}" ]]; then
   rm -rf "${LOCAL_COVERAGE_DIR}"
 fi
 mkdir -p "${LOCAL_COVERAGE_DIR}"
-echo "Test stage: ${LOCAL_BUILD_DIR} -- ${CONTAINER_BUILD_DIR}"
-echo "local build dir contents: "
-ls "${LOCAL_BUILD_DIR}"
 docker run \
     -v "${PWD}":"${CONTAINER_REPO_DIR}" \
     -v "${LOCAL_BUILD_DIR}":"${CONTAINER_BUILD_DIR}" \
@@ -17,6 +14,3 @@ docker run \
     -w "${CONTAINER_BUILD_DIR}" \
     --entrypoint "unit-test.sh" \
     local/unit-tester
-
-echo "Test complete: local build dir contents:"
-ls "${LOCAL_BUILD_DIR}"
