@@ -18,7 +18,7 @@ fi
 cd "$BUILD_DIR" || exit 1
 echo "Build dir ${PWD} contents:"
 ls .
-ctest
+ctest --no-tests=error
 
 cd "$SOURCE_DIR" || exit 1
 gcovr --sonarqube "${COVERAGE_DIR}/coverage.xml"
