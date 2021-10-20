@@ -20,6 +20,7 @@ docker run \
     -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
     -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
+    -w "${CONTAINER_REPO_DIR}" \
     shavera/ci-cmake-builder
 
 printf "\nBuild complete\n"
@@ -32,14 +33,13 @@ if [[ -d "${LOCAL_COVERAGE_DIR}" ]]; then
 fi
 mkdir -p "${LOCAL_COVERAGE_DIR}"
 CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
-docker run -it\
+docker run \
     -v "${PWD}":${CONTAINER_REPO_DIR} \
     -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
     -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
-    -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
-    -w ${CONTAINER_BUILD_DIR} \
+    -w ${CONTAINER_REPO_DIR} \
     shavera/ci-unit-test
 
 printf "\nTest complete\n"
