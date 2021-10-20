@@ -1,5 +1,2 @@
-services:
-  - docker
-
 build:
-  - docker pull shavera/ci-cmake-builder
+  - echo "success"
