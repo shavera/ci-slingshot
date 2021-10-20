@@ -1,6 +1,6 @@
 #FROM local/project-builder
 # don't need to rebuild this image yet
-FROM shavera/project-builder
+FROM shavera/ci-cmake-builder
 
 RUN apt-get -qqy install gcovr
 
