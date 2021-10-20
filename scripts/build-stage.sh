@@ -9,4 +9,4 @@ docker run \
     -v BuildDir:${CONTAINER_BUILD_DIR} \
     -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
-    local/project-builder
+   shavera/ci-cmake-builder

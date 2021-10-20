@@ -8,4 +8,4 @@ docker run \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
     -w ${CONTAINER_REPO_DIR} \
-    local/sonar-scanner
+    shavera/ci-sonar-scanner
