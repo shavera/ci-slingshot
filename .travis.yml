@@ -11,15 +11,16 @@ services:
   - docker
 
 env:
-  - SONAR_SCANNER_VERSION=4.6.1.2450 # Find the latest version in the "Linux" link on this page:
-  - SONAR_SERVER_URL="https://sonarcloud.io"
-  - BUILD_WRAPPER_OUT_DIR=build_wrapper_output_directory # Directory where build-wrapper output will be placed
-  - LOCAL_BUILD_DIR="ci-slingshot-build"
-  - LOCAL_COVERAGE_DIR="ci-slingshot-coverage"
-  - CONTAINER_REPO_DIR="/usr/src/ci-slingshot"
-  - CONTAINER_SOURCE_DIR="/usr/src/ci-slingshot/cpp"
-  - CONTAINER_BUILD_DIR="/usr/build/ci-slingshot"
-  - CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
+  global:
+    - SONAR_SCANNER_VERSION=4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+    - SONAR_SERVER_URL="https://sonarcloud.io"
+    - BUILD_WRAPPER_OUT_DIR=build_wrapper_output_directory # Directory where build-wrapper output will be placed
+    - LOCAL_BUILD_DIR="ci-slingshot-build"
+    - LOCAL_COVERAGE_DIR="ci-slingshot-coverage"
+    - CONTAINER_REPO_DIR="/usr/src/ci-slingshot"
+    - CONTAINER_SOURCE_DIR="/usr/src/ci-slingshot/cpp"
+    - CONTAINER_BUILD_DIR="/usr/build/ci-slingshot"
+    - CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
 
 before_install:
   - echo "$DOCKER_TOKEN" | docker login -u "shavera" --password-stdin
