@@ -10,15 +10,18 @@ ls "$PWD"
 echo "00B"
 ls "$PWD"/cpp
 echo "00C"
-echo "$LOCAL_BUILD_DIR"
 echo "${LOCAL_BUILD_DIR}"
 ls "$LOCAL_BUILD_DIR"
+if [[ -d "${LOCAL_BUILD_DIR}" ]]; then
+  echo "build dir found"
+  pushd "$LOCAL_BUILD_DIR" || exit 1
+  ls .
+  popd || exit 1
+else
+  echo "No build dir found"
+fi
 echo "00CC"
 ls "${LOCAL_BUILD_DIR}"
-echo "00CCC"
-ls $LOCAL_BUILD_DIR
-echo "00CCCC"
-ls ${LOCAL_BUILD_DIR}
 echo "00D"
 ls "$LOCAL_COVERAGE_DIR"
 

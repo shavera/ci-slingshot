@@ -7,7 +7,7 @@ set -e
 # It is meant to be run from the top level of the repo directory
 
 ## Step 1 - build
-LOCAL_BUILD_DIR="${PWD}/../ci-slingshot-build"
+LOCAL_BUILD_DIR="${PWD}/ci-slingshot-build"
 if [[ -d "${LOCAL_BUILD_DIR}" ]]; then
   rm -rf "${LOCAL_BUILD_DIR}"
 fi
@@ -27,13 +27,13 @@ printf "\nBuild complete\n"
 
 ## Step 2 - run tests
 # can run tests inside new container from the same image
-LOCAL_COVERAGE_DIR="${PWD}/../ci-slingshot-coverage"
+LOCAL_COVERAGE_DIR="${PWD}/ci-slingshot-coverage"
 if [[ -d "${LOCAL_COVERAGE_DIR}" ]]; then
   rm -rf "${LOCAL_COVERAGE_DIR}"
 fi
 mkdir -p "${LOCAL_COVERAGE_DIR}"
 CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
-docker run \
+docker run -it\
     -v "${PWD}":${CONTAINER_REPO_DIR} \
     -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
     -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
@@ -42,18 +42,18 @@ docker run \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
     --user "$(id -u)":"$(id -g)" \
     -w ${CONTAINER_BUILD_DIR} \
-    --entrypoint "unit-test.sh" \
+    --entrypoint "/bin/bash" \
     shavera/ci-unit-test
-
-printf "\nTest complete\n"
-
-## Step 3 - run sonarqube
-docker run \
-    -v "${PWD}":${CONTAINER_REPO_DIR} \
-    -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
-    -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
-    -e SONAR_TOKEN="${SONAR_TOKEN}" \
-    -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
-    -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
-    -w ${CONTAINER_REPO_DIR} \
-    shavera/ci-sonar-scanner
+#
+#printf "\nTest complete\n"
+#
+### Step 3 - run sonarqube
+#docker run \
+#    -v "${PWD}":${CONTAINER_REPO_DIR} \
+#    -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
+#    -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
+#    -e SONAR_TOKEN="${SONAR_TOKEN}" \
+#    -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
+#    -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
+#    -w ${CONTAINER_REPO_DIR} \
+#    shavera/ci-sonar-scanner
