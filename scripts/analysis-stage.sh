@@ -7,5 +7,6 @@ docker run \
     -e SONAR_TOKEN="${SONAR_TOKEN}" \
     -e BUILD_DIR="${CONTAINER_BUILD_DIR}" \
     -e COVERAGE_DIR="${CONTAINER_COVERAGE_DIR}" \
+    -e BUILD_PHASE="SCAN" \
     -w "${CONTAINER_REPO_DIR}" \
-    shavera/ci-sonar-scanner
+    shavera/ci-tooling

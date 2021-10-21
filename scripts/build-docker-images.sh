@@ -20,8 +20,9 @@ docker run \
     -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
     -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
+    -e BUILD_PHASE="BUILD" \
     -w "${CONTAINER_REPO_DIR}" \
-    shavera/ci-cmake-builder
+    shavera/ci-tooling
 
 printf "\nBuild complete\n"
 
@@ -39,8 +40,9 @@ docker run \
     -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
+    -e BUILD_PHASE="TEST" \
     -w ${CONTAINER_REPO_DIR} \
-    shavera/ci-unit-test
+    shavera/ci-tooling
 
 printf "\nTest complete\n"
 
@@ -52,5 +54,6 @@ docker run \
     -e SONAR_TOKEN="${SONAR_TOKEN}" \
     -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
     -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
+    -e BUILD_PHASE="SCAN" \
     -w ${CONTAINER_REPO_DIR} \
-    shavera/ci-sonar-scanner
+    shavera/ci-tooling

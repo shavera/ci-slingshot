@@ -10,5 +10,6 @@ docker run \
     -v "${LOCAL_COVERAGE_DIR}":"${CONTAINER_COVERAGE_DIR}" \
     -e BUILD_DIR="${CONTAINER_BUILD_DIR}" \
     -e COVERAGE_DIR="${CONTAINER_COVERAGE_DIR}" \
+    -e BUILD_PHASE="TEST" \
     -w "${CONTAINER_REPO_DIR}" \
     shavera/ci-unit-test
