@@ -10,5 +10,5 @@ docker_run_base(){
   -e COVERAGE_DIR="${CONTAINER_BUILD_DIR}" \
   -w "${CONTAINER_REPO_DIR}" \
   "$@" \
-  local/ci-tooling
+  shavera/ci-tooling
 }
