@@ -1,0 +1,37 @@
+name: Build
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and run analysis
+    runs-on: ubuntu-latest
+    env:
+      SONAR_SCANNER_VERSION: 4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+      # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
+      SONAR_SERVER_URL: "https://sonarcloud.io"
+      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+      BUILD_DIR_NAME: "ci-slingshot-build"
+      COVERAGE_DIR_NAME: "ci-slingshot-coverage"
+      CONTAINER_REPO_DIR: "/usr/src/ci-slingshot"
+      CONTAINER_SOURCE_DIR: "/usr/src/ci-slingshot/cpp"
+      CONTAINER_BUILD_DIR: "/usr/build/ci-slingshot"
+      CONTAINER_COVERAGE_DIR: "/usr/sonar/ci-slingshot"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+          submodules: true
+      - name: prepare workspace
+        run: >
+          export LOCAL_BUILD_DIR=${{ env.GITHUB_WORKSPACE }}/"${BUILD_DIR_NAME}"
+          export LOCAL_COVERAGE_DIR=${{ env.GITHUB_WORKSPACE }}/"${BUILD_DIR_NAME}"
+          mkdir -p LOCAL_BUILD_DIR
+          mkdir -p LOCAL_COVERAGE_DIR
+          source scripts/docker_run_base.sh
+      - name: build
+        run: docker_run_base -e BUILD_PHASE="BUILD"
+      - name: unit test
+        run: docker_run_base -e BUILD_PHASE="TEST"
+      - name: run sonar scanner
+        run: docker_run_base -e BUILD_PHASE="SCAN" -e SONAR_TOKEN=${SONAR_TOKEN}
