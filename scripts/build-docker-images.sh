@@ -12,48 +12,26 @@ if [[ -d "${LOCAL_BUILD_DIR}" ]]; then
   rm -rf "${LOCAL_BUILD_DIR}"
 fi
 mkdir -p "${LOCAL_BUILD_DIR}"
+#may need to export `CONTAINER_X_DIR` vars
 CONTAINER_REPO_DIR="/usr/src/ci-slingshot"
 CONTAINER_SOURCE_DIR="${CONTAINER_REPO_DIR}/cpp"
 CONTAINER_BUILD_DIR="/usr/build/ci-slingshot"
-docker run \
-    -v "${PWD}":${CONTAINER_REPO_DIR} \
-    -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
-    -e SOURCE_DIR=${CONTAINER_SOURCE_DIR} \
-    -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
-    -e BUILD_PHASE="BUILD" \
-    -w "${CONTAINER_REPO_DIR}" \
-    shavera/ci-tooling
 
-printf "\nBuild complete\n"
-
-## Step 2 - run tests
-# can run tests inside new container from the same image
 LOCAL_COVERAGE_DIR="${PWD}/ci-slingshot-coverage"
 if [[ -d "${LOCAL_COVERAGE_DIR}" ]]; then
   rm -rf "${LOCAL_COVERAGE_DIR}"
 fi
 mkdir -p "${LOCAL_COVERAGE_DIR}"
 CONTAINER_COVERAGE_DIR="/usr/sonar/ci-slingshot"
-docker run \
-    -v "${PWD}":${CONTAINER_REPO_DIR} \
-    -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
-    -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
-    -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
-    -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
-    -e BUILD_PHASE="TEST" \
-    -w ${CONTAINER_REPO_DIR} \
-    shavera/ci-tooling
+
+source "$(dirname "${BASH_SOURCE[0]}")/docker_run_base.sh"
+
+docker_run_base -e BUILD_PHASE="BUILD"
+
+printf "\nBuild complete\n"
+
+docker_run_base -e BUILD_PHASE="TEST"
 
 printf "\nTest complete\n"
 
-## Step 3 - run sonarqube
-docker run \
-    -v "${PWD}":${CONTAINER_REPO_DIR} \
-    -v "${LOCAL_BUILD_DIR}":${CONTAINER_BUILD_DIR} \
-    -v "${LOCAL_COVERAGE_DIR}":${CONTAINER_COVERAGE_DIR} \
-    -e SONAR_TOKEN="${SONAR_TOKEN}" \
-    -e BUILD_DIR=${CONTAINER_BUILD_DIR} \
-    -e COVERAGE_DIR=${CONTAINER_COVERAGE_DIR} \
-    -e BUILD_PHASE="SCAN" \
-    -w ${CONTAINER_REPO_DIR} \
-    shavera/ci-tooling
+docker_run_base -e BUILD_PHASE="SCAN" -e SONAR_TOKEN="${SONAR_TOKEN}"

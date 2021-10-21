@@ -26,17 +26,13 @@ env:
 
 before_install:
   - echo "$DOCKER_TOKEN" | docker login -u "shavera" --password-stdin
-
-# docker builds may be enabled if we wish to override the image in dockerhub built from ci-tooling ci
-#install:
-#  - docker build . -t local/project-base -f docker/project-base.Dockerfile
-#  - docker build . -t local/project-builder -f docker/builder.Dockerfile
-#  - docker build . -t local/unit-tester -f docker/unit-test.Dockerfile
-#  - docker build . -t local/sonar-scanner -f docker/sonar-scanner
+  - mkdir -p "${LOCAL_BUILD_DIR}"
+  - mkdir -p "${LOCAL_COVERAGE_DIR}"
+  - source scripts/docker_run_base.sh
 
 script:
-  - bash scripts/build-stage.sh
+  - docker_run_base -e BUILD_PHASE="BUILD"
 
 after_success:
-  - bash scripts/tests-stage.sh
-  - bash scripts/analysis-stage.sh
+  - docker_run_base -e BUILD_PHASE="TEST"
+  - docker_run_base -e BUILD_PHASE="SCAN" -e SONAR_TOKEN="${SONAR_TOKEN}"
