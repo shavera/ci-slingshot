@@ -11,4 +11,4 @@ docker run \
     -e BUILD_DIR="${CONTAINER_BUILD_DIR}" \
     -e BUILD_PHASE="BUILD" \
     -w "${CONTAINER_REPO_DIR}" \
-   shavera/ci-cmake-builder
+   shavera/ci-tooling
